@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lincoln Chatbot</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+
+            /* Background image (relative path) */
+            background-image: url("bg.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: default;
+            position: relative;
+        }
+
+        /* Invisible button styling */
+        #invisible-btn {
+            position: absolute;
+            transform: translate(5px, 132px); /* Adjust position as needed */
+            width: 50px; /* Width of clickable area */
+            height: 50px; /* Height of clickable area */
+            background-color: transparent; /* Invisible */
+            border: none;
+            cursor: default; /* Normal arrow cursor */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Invisible button -->
+    <button id="invisible-btn" aria-label="Play Lincoln Bot Thank You Message"></button>
+
+    <!-- Updated Chatbase Script -->
+    <script>
+    (function(){
+        if(!window.chatbase || window.chatbase("getState") !== "initialized"){
+            window.chatbase = (...arguments)=> {
+                if(!window.chatbase.q) { window.chatbase.q = []; }
+                window.chatbase.q.push(arguments);
+            };
+            window.chatbase = new Proxy(window.chatbase,{
+                get(target, prop){
+                    if(prop==="q"){return target.q;}
+                    return (...args)=>target(prop,...args);
+                }
+            });
+        }
+        const onLoad = function(){
+            const script = document.createElement("script");
+            script.src = "https://www.chatbase.co/embed.min.js";
+            script.id = "VDMHI5Vs5DFdpT-5wsCqL";
+            script.domain = "www.chatbase.co";
+            document.body.appendChild(script);
+        };
+        if(document.readyState==="complete"){onLoad();}
+        else{window.addEventListener("load",onLoad);}
+    })();
+    </script>
+
+    <!-- Lincoln Bot TTS Thank You Message -->
+    <script>
+    const thankYouChunks = [
+      "Thank you all for being part of today’s Townhall!",
+      "It’s been a pleasure being your virtual co-host.",
+      "A big shout-out to the entire myXP team at LFG for bringing me to life and for putting this Townhall together with such care and dedication.",
+      "Thank you for bringing your energy, your curiosity, and your time.",
+      "We shared meaningful updates, reflected on what matters, enjoyed a few smiles along the way, and yes… added just a touch of fun to keep things bright.",
+      "Until we meet again, this is Lincoln Bot AI signing off.",
+      "Keep me in your corner, always ready to pop back in whenever you need some virtual cheer.",
+      "See you at the next Townhall!"
+    ];
+
+    let hasPlayed = false;
+
+    async function getVoices() {
+      return new Promise(resolve => {
+        let voices = speechSynthesis.getVoices();
+        if (voices.length) resolve(voices);
+        else speechSynthesis.onvoiceschanged = () => resolve(speechSynthesis.getVoices());
+      });
+    }
+
+    async function playThankYou() {
+      if (hasPlayed) return;
+      hasPlayed = true;
+
+      const voices = await getVoices();
+      const preferred = ["Microsoft Aria", "Microsoft Zira", "Microsoft Guy", "Microsoft Jenny"];
+      const selectedVoice = voices.find(v => preferred.some(name => v.name.includes(name))) || voices[0];
+      if (!selectedVoice) return;
+
+      thankYouChunks.forEach((lineText) => {
+        const utter = new SpeechSynthesisUtterance(lineText);
+
+        utter.pitch = 1.1 + Math.random() * 0.05;
+        utter.rate = 1.15 + Math.random() * 0.05;
+        utter.volume = 1;
+
+        utter.voice = selectedVoice;
+        utter.lang = "en-US";
+
+        speechSynthesis.speak(utter);
+      });
+    }
+
+    // Trigger TTS when user clicks on the invisible button
+    document.getElementById("invisible-btn").addEventListener("click", playThankYou);
+    </script>
+
+</body>
+</html>
