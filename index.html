@@ -8,7 +8,6 @@
             padding: 0;
             font-family: Arial, sans-serif;
 
-            /* Background image (relative path) */
             background-image: url("bg.png");
             background-size: cover;
             background-position: center;
@@ -23,24 +22,21 @@
             position: relative;
         }
 
-        /* Invisible button styling */
         #invisible-btn {
             position: absolute;
-            transform: translate(5px, 132px); /* Adjust position as needed */
-            width: 50px; /* Width of clickable area */
-            height: 50px; /* Height of clickable area */
-            background-color: transparent; /* Invisible */
+            transform: translate(5px, 132px);
+            width: 50px;
+            height: 50px;
+            background-color: transparent;
             border: none;
-            cursor: default; /* Normal arrow cursor */
+            cursor: default;
         }
     </style>
 </head>
 <body>
 
-    <!-- Invisible button -->
     <button id="invisible-btn" aria-label="Play Lincoln Bot Thank You Message"></button>
 
-    <!-- Updated Chatbase Script -->
     <script>
     (function(){
         if(!window.chatbase || window.chatbase("getState") !== "initialized"){
@@ -67,17 +63,14 @@
     })();
     </script>
 
-    <!-- Lincoln Bot TTS Thank You Message -->
+    <!-- Updated Speakable Thank You Script -->
     <script>
     const thankYouChunks = [
-      "Thank you all for being part of today’s Townhall!",
-      "It’s been a pleasure being your virtual co-host.",
-      "A big shout-out to the entire myXP team at LFG for bringing me to life and for putting this Townhall together with such care and dedication.",
-      "Thank you for bringing your energy, your curiosity, and your time.",
-      "We shared meaningful updates, reflected on what matters, enjoyed a few smiles along the way, and yes… added just a touch of fun to keep things bright.",
-      "Until we meet again, this is Lincoln Bot AI signing off.",
-      "Keep me in your corner, always ready to pop back in whenever you need some virtual cheer.",
-      "See you at the next Townhall!"
+        "It’s been a pleasure being your virtual co-host.",
+        "A big shout-out to the entire myXP team at LFG for bringing me to life and for putting this Townhall together with such care and dedication.",
+        "Until we meet again, this is Lincoln Bot AI signing off.",
+        "Keep me in your corner, always ready to pop back in whenever you need some virtual cheer.",
+        "See you at the next Townhall!"
     ];
 
     let hasPlayed = false;
@@ -93,6 +86,8 @@
     async function playThankYou() {
       if (hasPlayed) return;
       hasPlayed = true;
+
+      speechSynthesis.cancel();
 
       const voices = await getVoices();
       const preferred = ["Microsoft Aria", "Microsoft Zira", "Microsoft Guy", "Microsoft Jenny"];
@@ -113,7 +108,6 @@
       });
     }
 
-    // Trigger TTS when user clicks on the invisible button
     document.getElementById("invisible-btn").addEventListener("click", playThankYou);
     </script>
 
