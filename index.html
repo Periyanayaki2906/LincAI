@@ -1,115 +1,34 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
 <head>
-    <title>Lincoln Chatbot</title>
-    <style>
+<title>Lincoln Chatbot</title>
+<style>
         body {
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
-
+ 
+            /* 🔥 Use your background image */
             background-image: url("bg.png");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-
+ 
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: default;
-            position: relative;
+            text-align: center;
         }
-
-        #invisible-btn {
-            position: absolute;
-            transform: translate(5px, 132px);
-            width: 50px;
-            height: 50px;
-            background-color: transparent;
-            border: none;
-            cursor: default;
-        }
-    </style>
+</style>
 </head>
 <body>
-
-    <button id="invisible-btn" aria-label="Play Lincoln Bot Thank You Message"></button>
-
-    <script>
-    (function(){
-        if(!window.chatbase || window.chatbase("getState") !== "initialized"){
-            window.chatbase = (...arguments)=> {
-                if(!window.chatbase.q) { window.chatbase.q = []; }
-                window.chatbase.q.push(arguments);
-            };
-            window.chatbase = new Proxy(window.chatbase,{
-                get(target, prop){
-                    if(prop==="q"){return target.q;}
-                    return (...args)=>target(prop,...args);
-                }
-            });
-        }
-        const onLoad = function(){
-            const script = document.createElement("script");
-            script.src = "https://www.chatbase.co/embed.min.js";
-            script.id = "VDMHI5Vs5DFdpT-5wsCqL";
-            script.domain = "www.chatbase.co";
-            document.body.appendChild(script);
-        };
-        if(document.readyState==="complete"){onLoad();}
-        else{window.addEventListener("load",onLoad);}
-    })();
-    </script>
-
-    <!-- Updated Speakable Thank You Script -->
-    <script>
-    const thankYouChunks = [
-        "It’s been a pleasure being your virtual co-host.",
-        "A big shout-out to the entire myXP team at LFG for bringing me to life and for putting this Townhall together with such care and dedication.",
-        "Until we meet again, this is Lincoln Bot AI signing off.",
-        "Keep me in your corner, always ready to pop back in whenever you need some virtual cheer.",
-        "See you at the next Townhall!"
-    ];
-
-    let hasPlayed = false;
-
-    async function getVoices() {
-      return new Promise(resolve => {
-        let voices = speechSynthesis.getVoices();
-        if (voices.length) resolve(voices);
-        else speechSynthesis.onvoiceschanged = () => resolve(speechSynthesis.getVoices());
-      });
-    }
-
-    async function playThankYou() {
-      if (hasPlayed) return;
-      hasPlayed = true;
-
-      speechSynthesis.cancel();
-
-      const voices = await getVoices();
-      const preferred = ["Microsoft Aria", "Microsoft Zira", "Microsoft Guy", "Microsoft Jenny"];
-      const selectedVoice = voices.find(v => preferred.some(name => v.name.includes(name))) || voices[0];
-      if (!selectedVoice) return;
-
-      thankYouChunks.forEach((lineText) => {
-        const utter = new SpeechSynthesisUtterance(lineText);
-
-        utter.pitch = 1.1 + Math.random() * 0.05;
-        utter.rate = 1.15 + Math.random() * 0.05;
-        utter.volume = 1;
-
-        utter.voice = selectedVoice;
-        utter.lang = "en-US";
-
-        speechSynthesis.speak(utter);
-      });
-    }
-
-    document.getElementById("invisible-btn").addEventListener("click", playThankYou);
-    </script>
-
-</body>
+ 
+    <!-- No text here since your image already contains the welcome words -->
+ 
+    <!-- Chatbase Script -->
+<script>
+(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="VDMHI5Vs5DFdpT-5wsCqL";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+</script></body>
 </html>
